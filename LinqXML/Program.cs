@@ -177,6 +177,7 @@ namespace LinqXML
         
         static void Main(string[] args)
         {
+
             CriarXmlLinq();
             Console.ReadKey();
 
