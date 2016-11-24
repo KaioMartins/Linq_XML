@@ -132,9 +132,52 @@ namespace LinqXML
             contactsDocument.Save(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos1.xml");
             Console.WriteLine(@"Criando o arquivo XML com DOM em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos1.xml");
         }
+
+        static void CriarXmlLinq()
+        {
+            XElement contatos =
+                new XElement("Contatos",
+                    new XElement("Contato",
+                        new XElement("Nome", "Thiago Mônaco"),
+                        new XElement("Telefones",
+                            new XElement("Telefone", "(11) 9999-9999",
+                                new XAttribute("Tipo", "Celular")),
+                            new XElement("Telefone", "(11) 5555-5555",
+                                new XAttribute("Tipo", "Residencial"))
+                        ),
+                        new XElement("Endereco",
+                            new XElement("Logradouro", "R: Xpto, 1234"),
+                            new XElement("Bairro", "Bairro XXX"),
+                            new XElement("Cidade", "São Paulo"),
+                            new XElement("Estado", "SP"),
+                            new XElement("CEP", "01010-010")
+                        )
+                    ),
+                    new XElement("Contato",
+                        new XElement("Nome", "Paulo Pedro"),
+                        new XElement("Telefones",
+                            new XElement("Telefone", "(11) 8888-8888",
+                                new XAttribute("Tipo", "Celular")),
+                            new XElement("Telefone", "(11) 4444-4444",
+                                new XAttribute("Tipo", "Residencial"))
+                        ),
+                        new XElement("Endereco",
+                            new XElement("Logradouro", "R: ABC, 1234"),
+                            new XElement("Bairro", "Bairro AAA"),
+                            new XElement("Cidade", "São Paulo"),
+                            new XElement("Estado", "SP"),
+                            new XElement("CEP", "02020-020")
+                        )
+                    )
+                );
+
+            contatos.Save(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
+            Console.WriteLine(@"Criando o arquivo XML com LINQ to XML em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
+        }
+
         static void Main(string[] args)
         {
-            CriarXmlDOM();
+            CriarXmlLinq();
             Console.ReadKey();
         }
     }
