@@ -175,55 +175,104 @@ namespace LinqXML
             Console.WriteLine(@"Criando o arquivo XML com LINQ to XML em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
         }
 
+        static List<Contato> CriarContatos()
+        {
+            List<Contato> contatos = new List<Contato>();
+
+            contatos.Add(
+                            new Contato()
+                            {
+                                Nome = "Felipe Mourato",
+                                Endereco = new Endereco()
+                                {
+                                    Logradouro = "R: ABC, 1234",
+                                    Bairro = "Bairro AAA",
+                                    Cidade = "São Paulo",
+                                    Estado = "SP",
+                                    CEP = "02020-020"
+                                }
+                            }
+                        );
+
+            contatos.Add(
+                            new Contato()
+                            {
+                                Nome = "Mauro Mauricio",
+                                Endereco = new Endereco()
+                                {
+                                    Logradouro = "R: GHF, 0893",
+                                    Bairro = "Bairro CCC",
+                                    Cidade = "São Paulo",
+                                    Estado = "SP",
+                                    CEP = "04040-040"
+                                }
+                            }
+                        );
+
+            contatos.Add(
+                            new Contato()
+                            {
+                                Nome = "Suzan Suzi",
+                                Endereco = new Endereco()
+                                {
+                                    Logradouro = "R: DEF, 567",
+                                    Bairro = "Bairro BBB",
+                                    Cidade = "Betin",
+                                    Estado = "MG",
+                                    CEP = "03030-030"
+                                }
+                            }
+                        );
+
+            contatos.Add(
+                            new Contato()
+                            {
+                                Nome = "Claudia Rodrigues",
+                                Endereco = new Endereco()
+                                {
+                                    Logradouro = "R: JKL, 890",
+                                    Bairro = "Bairro DDD",
+                                    Cidade = "Rio de Janeiro",
+                                    Estado = "RJ",
+                                    CEP = "06060-060"
+                                }
+                            }
+                        );
+
+            return contatos;
+
+        }
+
         static void Main(string[] args)
         {
-            XDocument doc = XDocument.Load(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
+            List<Contato> contatos = CriarContatos();
 
-            List<Contato> contatos = (from c in doc.Descendants("Contato")
-                                      select new Contato
-                                      {
-                                          Nome = c.Element("Nome").Value,
-                                          Endereco = new Endereco()
-                                          {
-                                              Logradouro = c.Element("Endereco").Element("Logradouro").Value,
-                                              Bairro = c.Element("Endereco").Element("Bairro").Value,
-                                              Cidade = c.Element("Endereco").Element("Cidade").Value,
-                                              Estado = c.Element("Endereco").Element("Estado").Value,
-                                              CEP = c.Element("Endereco").Element("CEP").Value
-                                          }
-                                      }).ToList();
+            XElement xmlContatos = new XElement("Contatos",
+            from c in contatos
+            select new XElement("Contato",
+            new XElement("Nome", c.Nome),
+                new XElement("Endereco",
+                    new XElement("Logradouro", c.Endereco.Logradouro),
+                    new XElement("Bairro", c.Endereco.Bairro),
+                    new XElement("Cidade", c.Endereco.Cidade),
+                    new XElement("Estado", c.Endereco.Estado),
+                    new XElement("CEP", c.Endereco.CEP))
+                ));
 
             //Em sintaxe de método ficaria da seguinte forma:
-            //List<Contato> contat = doc.Descendants("Contato")
-            //                        .Select(
-            //                            c => new Contato
-            //                            {
-            //                                Nome = c.Element("Nome").Value,
-            //                                Endereco = new Endereco()
-            //                                {
-            //                                    Logradouro = c.Element("Endereco").Element("Logradouro").Value,
-            //                                    Bairro = c.Element("Endereco").Element("Bairro").Value,
-            //                                    Cidade = c.Element("Endereco").Element("Cidade").Value,
-            //                                    Estado = c.Element("Endereco").Element("Estado").Value,
-            //                                    CEP = c.Element("Endereco").Element("CEP").Value
-            //                                }
-            //                            }).ToList();
+            //XElement xmlContatos2 = new XElement("Contatos", contatos.Select(c => new XElement("Contato",
+            //                                                            new XElement("Nome", c.Nome),
+            //                                                               new XElement("Endereco",
+            //                                                                   new XElement("Logradouro", c.Endereco.Logradouro),
+            //                                                                   new XElement("Bairro", c.Endereco.Bairro),
+            //                                                                   new XElement("Cidade", c.Endereco.Cidade),
+            //                                                                   new XElement("Estado", c.Endereco.Estado),
+            //                                                                   new XElement("CEP", c.Endereco.CEP))
+            //                                                               )));
 
+            xmlContatos.Save(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos3.xml");
+            Console.WriteLine(@"Criando o arquivo XML com DOM em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos3.xml");
 
-
-            foreach (Contato contato in contatos)
-            {
-                Console.WriteLine("{0}", contato.Nome);
-
-                Endereco endereco = contato.Endereco;
-                Console.WriteLine("{0}", endereco.Logradouro);
-                Console.WriteLine("Bairro: {0}", endereco.Bairro);
-                Console.WriteLine("Cidade: {0}", endereco.Cidade);
-                Console.WriteLine("Estado: {0}", endereco.Estado);
-                Console.WriteLine("CEP: {0}", endereco.CEP);
-
-                Console.WriteLine();
-            }
             Console.ReadKey();
         }
     }
