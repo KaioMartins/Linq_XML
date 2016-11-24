@@ -174,13 +174,43 @@ namespace LinqXML
             contatos.Save(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
             Console.WriteLine(@"Criando o arquivo XML com LINQ to XML em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
         }
-        
+
         static void Main(string[] args)
         {
+            XDocument doc = XDocument.Load(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
 
-            CriarXmlLinq();
+            IEnumerable<XElement> contatos = from c in doc.Descendants("Contato")
+                                             where c.Element("Endereco").Element("Bairro").Value == "Bairro XXX"
+                                             select c;
+
+            //Em sintaxe de método ficaria da seguinte forma:
+            //IEnumerable<XElement> contatos = doc.Descendants("Contato").Where(c => c.Element("Endereco").Element("Bairro").Value == "Bairro XXX");
+
+            foreach (XElement contato in contatos)
+            {
+                Console.WriteLine("{0}", contato.Element("Nome").Value);
+
+                Console.WriteLine("\nTelefones:");
+
+                XElement telefones = contato.Element("Telefones");
+                foreach (XElement telefone in telefones.Elements("Telefone"))
+                {
+                    string tipo = telefone.Attribute("Tipo").Value;
+                    string numero = telefone.Value;
+
+                    Console.WriteLine("{0}: {1}", tipo, numero);
+                }
+
+                Console.WriteLine("\nEndereço:");
+
+                XElement endereco = contato.Element("Endereco");
+                Console.WriteLine("{0}", endereco.Element("Logradouro").Value);
+                Console.WriteLine("Bairro: {0}", endereco.Element("Bairro").Value);
+                Console.WriteLine("Cidade: {0}", endereco.Element("Cidade").Value);
+                Console.WriteLine("Estado: {0}", endereco.Element("Estado").Value);
+                Console.WriteLine("CEP: {0}", endereco.Element("CEP").Value);
+            }
             Console.ReadKey();
-
         }
     }
 }
