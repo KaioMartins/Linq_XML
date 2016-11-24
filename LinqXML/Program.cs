@@ -174,7 +174,7 @@ namespace LinqXML
             contatos.Save(@"D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
             Console.WriteLine(@"Criando o arquivo XML com LINQ to XML em D:\Users\Kaio\Documents\Visual Studio 2015\Projects\Linq_e_Entity\Linq\LinqXML\Contatos2.xml");
         }
-
+        
         static void Main(string[] args)
         {
             CriarXmlLinq();
